@@ -20,3 +20,28 @@ function loadBookData() {
 $(function () {
     loadBookData();
 });
+$(document).ready(function () {
+
+    $("#add_window").hide();
+
+    $("#add_book").click(function () {
+        $("#add_window").data("kendoWindow").center().open();
+    });
+
+
+    $("#add_window").kendoWindow({
+        width: "600px",
+        title: "About Alvar Aalto",
+        visible: false,
+        actions: [
+            "Pin",
+            "Minimize",
+            "Maximize",
+            "Close"
+        ],
+    });
+
+    $("#add_book").click(function () {
+        $("#add_window").show();
+    });
+});
