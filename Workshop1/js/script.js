@@ -20,6 +20,7 @@ function loadBookData() {
 $(function () {
     loadBookData();
 });
+
 $(document).ready(function () {
 
     $("#add_window").hide();
@@ -43,5 +44,32 @@ $(document).ready(function () {
 
     $("#add_book").click(function () {
         $("#add_window").show();
+    });
+
+    $("#book_grid").kendoGrid({
+        dataSource: {
+            data: bookDataFromLocalStorage,
+            pageSize: 20
+        },
+        height: 550,
+        scrollable: true,
+        sortable: true,
+        filterable: true,
+        pageable: {
+        input: true,
+        numeric: false
+        },
+        columns: [
+            "bookDataFromLocalStorage",
+            { field: "BookId", title: "書籍編號",  width: "130px" },
+            { field: "BookName", title: "書籍名稱", width: "130px" },
+            { field: "BookCategory", title: "書籍種類",width: "130px" },
+            { field: "BookAuthor", title: "作者", width: "130px" },
+            { field: "BookBoughtDate", title: "購買日期", width: "130px" },
+            { field: "BookDeliveredDate", title: "送達狀態", width: "130px" },
+            { field: "BookPrice", title: "金額",width: "130px" },
+            { field: "BookAmount", title: "數量",width: "130px" },
+            { field: "BookTotal", title: "總計",width: "130px" },
+        ]
     });
 });
