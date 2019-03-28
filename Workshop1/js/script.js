@@ -22,13 +22,12 @@ $(function () {
 });
 
 $(document).ready(function () {
-
+     kendo.culture("zh-TW");
     $("#add_window").hide();
 
     $("#add_book").click(function () {
         $("#add_window").data("kendoWindow").center().open();
     });
-
 
     $("#add_window").kendoWindow({
         width: "600px",
@@ -54,7 +53,7 @@ $(document).ready(function () {
         height: 550,
         scrollable: true,
         sortable: true,
-        filterable: true,
+        filterable:false,
         pageable: {
         input: true,
         numeric: false
@@ -71,5 +70,27 @@ $(document).ready(function () {
             { field: "BookAmount", title: "數量",width: "130px" },
             { field: "BookTotal", title: "總計",width: "130px" },
         ]
+    });
+
+  
+    $("#search1").kendoAutoComplete(bookDataFromLocalStorage);
+
+    var autocomplete = $("#search1").bookDataFromLocalStorage("kendoAutoComplete"),
+        setValue = function (e) {
+            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                autocomplete.value($("#value").val());
+        },
+        setSearch = function (e) {
+            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
+                autocomplete.search($("#word").val());
+        };
+
+    $("#set").click(setValue);
+    $("#value").keypress(setValue);
+    $("#search").click(setSearch);
+    $("#word").keypress(setSearch);
+
+    $("#get").click(function () {
+        alert(autocomplete.value());
     });
 });
