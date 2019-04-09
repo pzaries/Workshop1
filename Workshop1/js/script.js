@@ -20,18 +20,29 @@ function loadBookData() {
 $(function () {
     loadBookData();
 });
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function getBoolean(str) {
+    if ("true".startsWith(str)) {
+        return true;
+    } else if ("false".startsWith(str)) {
+        return false;
+    } else {
+        return null;
+    }
+}
 
 $(document).ready(function () {
-     kendo.culture("zh-TW");
-    $("#add_window").hide();
+    kendo.culture("zh-TW");
 
     $("#add_book").click(function () {
         $("#add_window").data("kendoWindow").center().open();
     });
-
     $("#add_window").kendoWindow({
         width: "600px",
-        title: "About Alvar Aalto",
+        title: "新增書籍",
         visible: false,
         actions: [
             "Pin",
@@ -41,56 +52,93 @@ $(document).ready(function () {
         ],
     });
 
-    $("#add_book").click(function () {
-        $("#add_window").show();
-    });
 
     $("#book_grid").kendoGrid({
         dataSource: {
             data: bookDataFromLocalStorage,
-            pageSize: 20
+            pageSize: 20,
         },
-        height: 550,
-        scrollable: true,
+        height: 700,
         sortable: true,
-        filterable:false,
+        toolbar: kendo.template($("#template").html()),
         pageable: {
-        input: true,
-        numeric: false
+            input: true,
+            numeric: false
         },
         columns: [
-            "bookDataFromLocalStorage",
-            { field: "BookId", title: "書籍編號",  width: "130px" },
-            { field: "BookName", title: "書籍名稱", width: "130px" },
-            { field: "BookCategory", title: "書籍種類",width: "130px" },
-            { field: "BookAuthor", title: "作者", width: "130px" },
-            { field: "BookBoughtDate", title: "購買日期", width: "130px" },
-            { field: "BookDeliveredDate", title: "送達狀態", width: "130px" },
-            { field: "BookPrice", title: "金額",width: "130px" },
-            { field: "BookAmount", title: "數量",width: "130px" },
-            { field: "BookTotal", title: "總計",width: "130px" },
+            { command: [{ text: "刪除" }] },
+            { field: "BookId", title: "書籍編號", type: "number"},
+            { field: "BookName", title: "書籍名稱", type: "string"},
+            { field: "BookCategory", title: "書籍種類", type: "string"},
+            { field: "BookAuthor", title: "作者", type: "string"},
+            { field: "BookBoughtDate", title: "購買日期", type: "string", format: "{0:yyyy-MM-dd}"},
+            { field: "BookDeliveredDate", title: "送達狀態", type: "string", format: "{0:yyyy-MM-dd}"},
+            { field: "BookPrice", title: "金額", type: "number", format: "{0:NO}元"},
+            { field: "BookAmount", title: "數量", type: "number", format: "{0:NO}"},
+            { field: "BookTotal", title: "總計", type: "number", format: "{0:NO}元"}
         ]
     });
 
-  
-    $("#search1").kendoAutoComplete(bookDataFromLocalStorage);
+    $("#search").on('input', function (e) {
+        var grid = $('#book_grid').data('kendoGrid');
+        var columns = grid.columns;
+        var filter = { logic: 'or', filters: [] };
+        columns.forEach(function (x) {
+            if (x.field) {
+                var type = grid.dataSource.options.schema.model.field[x.field].type;
+                if (type == 'string') {
+                    filter.filters.push({
+                        field: x.field,
+                        operator: 'contains',
+                        value: e.target.value
+                    })
+                }
+                else if (type == 'number') {
+                    if (isNumeric(e.target.value)) {
+                        filter.filters.push({
+                            field: x.field,
+                            operator: 'eq',
+                            value: e.target.value
+                        });
+                    }
 
-    var autocomplete = $("#search1").bookDataFromLocalStorage("kendoAutoComplete"),
-        setValue = function (e) {
-            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
-                autocomplete.value($("#value").val());
-        },
-        setSearch = function (e) {
-            if (e.type != "keypress" || kendo.keys.ENTER == e.keyCode)
-                autocomplete.search($("#word").val());
-        };
-
-    $("#set").click(setValue);
-    $("#value").keypress(setValue);
-    $("#search").click(setSearch);
-    $("#word").keypress(setSearch);
-
-    $("#get").click(function () {
-        alert(autocomplete.value());
+                } else if (type == 'date') {
+                    var data = grid.dataSource.data();
+                    for (var i = 0; i < data.length; i++) {
+                        var dateStr = kendo.format(x.format, data[i][x.field]);
+                        if (dateStr.startsWith(e.target.value)) {
+                            filter.filters.push({
+                                field: x.field,
+                                operator: 'eq',
+                                value: data[i][x.field]
+                            })
+                        }
+                    }
+                } else if (type == 'boolean' && getBoolean(e.target.value) !== null) {
+                    var bool = getBoolean(e.target.value);
+                    filter.filters.push({
+                        field: x.field,
+                        operator: 'eq',
+                        value: bool
+                    });
+                }
+            }
+        });
+        grid.dataSource.filter(filter);
     });
+
+
+
+    //圖書類別
+    $("#book_category").kendoDropDownList({
+        dataTextField: "text",
+        dataValueField: "value",
+        dataSource: bookCategoryList,
+        index: 0,
+        // "image/"+"value"+".jpg"
+    });
+    //書名
+    $("#book_name")
+    //作者 $("#book_category")
+
 });
