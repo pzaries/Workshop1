@@ -30,35 +30,42 @@
                         </li>
                         <li>
                             <label class="required">圖書類別</label>
-                            <select id="book_category" class="uk-width-1-1"></select>
+                            <select id="book_category" name="book_category" class="uk-width-1-1" required validationMessage="請選擇圖書類別"></select>
                         </li>
                         <li>
                             <label class="required">書名</label>
-                            <input id="book_name" type="text" class="uk-width-1-1" />
+                            <input id="book_name" type="text" name="book_name" class="uk-width-1-1" required validationMessage="請輸入書名" />
+                            <span class="k-invalid-msg" data-for="book_nameˇㄉ"></span>
                         </li>
                         <li>
                             <label class="required">作者</label>
-                            <input id="book_author" type="text" class="uk-width-1-1" />
+                            <input id="book_author" type="text" name="book_author" class="uk-width-1-1" required validationMessage="請輸入作者" />
+                            <span class="k-invalid-msg" data-for="book_author"></span>
                         </li>
                         <li>
                             <label class="required">購買日期</label>
-                           <input id="bought_datepicker" type="date" class="uk-width-1-1" />
+                            <input id="bought_datepicker" type="date" name="bought_datepicker" class="uk-width-1-1" required validationMessage="請輸入購買日期" />
+                            <span class="k-invalid-msg" data-for="bought_datepicker"></span>
                         </li>
                         <li>
                             <label>送達日期</label>
-                            <input id="delivered_datepicker" type="date" class="uk-width-1-1" />
+                            <input id="delivered_datepicker" type="date" name="delivered_datepicker" class="uk-width-1-1" />
+                            <span class="k-invalid-msg" data-for="delivered_datepicker"></span>
                         </li>
                         <li>
                             <label class="required">金額</label>
-                            <input id="book_price" type="text" class="uk-width-1-1" />
+                            <input id="book_price" type="number" name="book_price" class="uk-width-1-1" required validationMessage="請輸入金額" min="1" />
+                            <span class="k-invalid-msg" data-for="book_price"></span>
+
                         </li>
                         <li>
                             <label class="required">數量</label>
-                            <input id="book_amount" type="text" class="uk-width-1-1" />
+                            <input id="book_amount" type="number" name="book_amount" class="uk-width-1-1" required validationMessage="請輸入數量" min="1" />
+                            <span class="k-invalid-msg" data-for="book_amount"></span>
                         </li>
                         <li class="uk-text-right">
                             <span>
-                                總計&nbsp;<span id="book_total">0</span> 元
+                                總計&nbsp;<span id="book_total" name="book_total" >0</span> 元
                             </span>
                         </li>
                         <li class="uk-text-right">
