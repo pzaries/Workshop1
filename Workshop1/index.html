@@ -26,7 +26,7 @@
                 <form id="book_form">
                     <ul class="fieldlist">
                         <li>
-                            <img class="book_image" id="book_image" src="image/database.jpg" alt="">
+                            <img class="book_image" id="book-image" src="image/database.jpg" alt="">
                         </li>
                         <li>
                             <label class="required">圖書類別</label>
@@ -34,27 +34,27 @@
                         </li>
                         <li>
                             <label class="required">書名</label>
-                            <input id="book_name" type="text" class="uk-width-1-1"/>
+                            <input id="book_name" type="text" class="uk-width-1-1" />
                         </li>
                         <li>
                             <label class="required">作者</label>
-                            <input id="book_author" type="text" class="uk-width-1-1"/>
+                            <input id="book_author" type="text" class="uk-width-1-1" />
                         </li>
                         <li>
                             <label class="required">購買日期</label>
-                            <input id="bought_datepicker" type="date" class="uk-width-1-1"/>
+                           <input id="bought_datepicker" type="date" class="uk-width-1-1" />
                         </li>
                         <li>
                             <label>送達日期</label>
-                            <input id="delivered_datepicker" type="date" class="uk-width-1-1"/>
+                            <input id="delivered_datepicker" type="date" class="uk-width-1-1" />
                         </li>
                         <li>
                             <label class="required">金額</label>
-                            <input id="book_price" type="text" class="uk-width-1-1"/>
+                            <input id="book_price" type="text" class="uk-width-1-1" />
                         </li>
                         <li>
                             <label class="required">數量</label>
-                            <input id="book_amount" type="text" class="uk-width-1-1"/>
+                            <input id="book_amount" type="text" class="uk-width-1-1" />
                         </li>
                         <li class="uk-text-right">
                             <span>
@@ -64,11 +64,15 @@
                         <li class="uk-text-right">
                             <button type="button" class="k-button k-primary btn-add-book" id="save_book">新增</button>
                         </li>
+                      
                     </ul>
                 </form>
             </div>
             <button type="button" id="add_book" class="k-button k-primary btn-add-book">新增書籍</button>
             <div id="book_grid">
+                <div id="delete_details">
+
+                </div>
             </div>
             <script type="text/x-kendo-template" id="template">
                 <div class="book-grid-toolbar">
