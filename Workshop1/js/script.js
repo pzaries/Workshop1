@@ -233,6 +233,7 @@ $(document).ready(function () {
     });
 
     //刪除
+
     var deleteData;
     var wnd = $("#delete_details").kendoDialog({
         modal: false,
